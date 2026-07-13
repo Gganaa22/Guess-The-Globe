@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="mn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Улс орны таавар - Үндсэн цэс</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body>
+    <div class="menu-container">
+        <!-- nickname tohiruulh heseg (Shine hereglegchid haragdana) -->
+        <div id="nickname-section" class="auth-box" style="display: none;">
+            <h2>Тоглогчийн нэр тохируулах</h2>
+            <p style="margin-bottom: 15px; font-size: 0.9rem; text-align: center; color: #e0e0e0;">
+                Тоглоомын leaderboard дээр харагдах нэрээ оруулна уу.
+            </p>
+            <form id="nickname-form">
+                <div class="input-group">
+                    <input type="text" id="nickname-input" required placeholder="Никнэйм (макс 15 тэмдэгт)" maxlength="15">
+                </div>
+                <button type="submit" class="btn-primary">Хадгалах</button>
+            </form>
+            <p id="nick-error" class="error-text"></p>
+        </div>
+
+        <!-- Undsen tses(nickname tei hereglegcid haragdana) -->
+        <div id="main-menu" class="auth-box" style="display: none;">
+            <h2>Сайн уу, <span id="user-display-name">Тоглогч</span>! </h2>
+            <p style="text-align: center; margin-bottom: 20px; color: #a5c7f7;">Тоглоомын горимоо сонгоно уу</p>
+            
+            <div class="menu-buttons">
+                <button class="btn-menu" onclick="startGame('flag')"> Туг таах</button>
+                <button class="btn-menu" onclick="startGame('capital')"> Нийслэл таах</button>
+                <button class="btn-menu" onclick="startGame('map')"> Газар нутгийн дүрс таах</button>
+                <button class="btn-menu btn-secondary" onclick="window.location.href='leaderboard.html'"> Шилдэг тоглогчид</button>
+                <button id="logout-btn" class="btn-primary" style="background: #d9534f; margin-top: 20px;">Системээс гарах</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- menu.js file iig holbono -->
+    <script src="menu.js"></script>
+</body>
+</html>
