@@ -1,8 +1,8 @@
 // supabase holbolt
-const SUPABASE_URL = "https://mgkknnhbsmkhlhahudzq.supabase.co/rest/v1/";
+const SUPABASE_URL = "https://mgkknnhbsmkhlhahudzq.supabase.co";
 const SUPABASE_KEY = "sb_publishable_ijQMQQfZB3jAlKq4KNQu5g_lpiwhHsf";
 
-const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
 // HTML elementuudiig barij avah
 const authForm = document.getElementById('auth-form');
@@ -40,7 +40,7 @@ authForm.addEventListener('submit', async (e) => {
     const password = passwordInput.value;
 
     if (isLoginMode) {
-        const { data, error } = await supabase.auth.signInWithPassword({
+        const { data, error } = await supabaseClient.auth.signInWithPassword({
             email: email,
             password: password,
         });
@@ -50,10 +50,10 @@ authForm.addEventListener('submit', async (e) => {
         } else {
             alert("Амжилттай нэвтэрлээ!");
             // Daraa ni menu.html ruu shiljuulne
-            // window.location.href = "menu.html";
+            window.location.href = "menu.html";
         }
     } else {
-        const { data, error } = await supabase.auth.signUp({
+        const { data, error } = await supabaseClient.auth.signUp({
             email: email,
             password: password,
         });
@@ -61,7 +61,7 @@ authForm.addEventListener('submit', async (e) => {
         if (error) {
             errorMsg.innerText = "Алдаа: " + error.message;
         } else {
-            alert("Бүртгэл амжилттай! Имэйлээ шалгаж баталгаажуулна уу.");
+            alert("Бүртгэл амжилттай!");
         }
     }
 });

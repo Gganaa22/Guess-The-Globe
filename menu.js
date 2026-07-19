@@ -1,6 +1,6 @@
-const SUPABASE_URL = "https://mgkknnhbsmkhlhahudzq.supabase.co/rest/v1/";
+const SUPABASE_URL = "https://mgkknnhbsmkhlhahudzq.supabase.co";
 const SUPABASE_KEY = "sb_publishable_ijQMQQfZB3jAlKq4KNQu5g_lpiwhHsf";
-const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
 const nicknameSection = document.getElementById('nickname-section');
 const mainMenu = document.getElementById('main-menu');
@@ -14,7 +14,7 @@ let currentUser = null;
 
 // Huudas achaalagdahad hereglegch nevtersen esehiig shalgana 
 window.addEventListener('load', async () => {
-    const { data: { session } } = await supabase.auth.getSession();
+    const { data: { session } } = await supabaseClient.auth.getSession();
     
     if (!session) {
         // Nevtreegui baival index.html ruu butsaana
@@ -28,7 +28,7 @@ window.addEventListener('load', async () => {
 
 // hereglegchid nickname baigaa esehiig profiles husnegtees shalgana
 async function checkNickname() {
-    const { data, error } = await supabase
+    const { data, error } = await supabaseClient
         .from('profiles')
         .select('nickname')
         .eq('id', currentUser.id)
@@ -58,7 +58,7 @@ nicknameForm.addEventListener('submit', async (e) => {
     }
 
     //Supabase iin profiles husnegted hadgalna
-    const { error } = await supabase
+    const { error } = await supabaseClient
         .from('profiles')
         .insert([{ id: currentUser.id, nickname: nickname }]);
 
