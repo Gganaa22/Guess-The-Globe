@@ -154,3 +154,67 @@ body {
     border-color: #38bdf8;
     box-shadow: 0 10px 20px rgba(56, 189, 248, 0.2);
 }
+
+/* Header bolon systemees garah tovchiig 2 buland ni shahsn */
+.menu-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    padding-bottom: 20px;
+    margin-bottom: 30px;
+}
+
+/* Systemees garah tovchiig baruun buland taaruulj jijig tsegtstei blgsn */
+#logout-btn {
+    background: #e11d48;
+    grid-column: auto;
+    padding: 10px 20px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    border-radius: 8px;
+    margin-top: 0;
+    width: auto;
+}
+#logout-btn:hover {
+    background: #be123c;
+    box-shadow: 0 4px 12px rgba(225, 29, 72, 0.3);
+}
+
+/* 3 gorimiig deer ni leaderboard iig door ni orgonoor bairluulh */
+.menu-buttons {
+    grid-template-columns: repeat(3, 1fr) !important;
+}
+
+.btn-secondary {
+    grid-column: span 3; /*suuliin tovchiig 3 bagana damnuuln buten orgotei bolgono */
+    background: rgba(168, 85, 247, 0.15) !important;
+    border-color: rgba(168, 85, 247, 0.3) !important;
+}
+.btn-secondary:hover {
+    border-color: #a855f7 !important;
+    box-shadow: 0 10px 20px rgba(168, 85, 247, 0.2) !important;
+}
+
+/* Delgets jijigseh uyd avtomataar uyn hatan shiljine */
+@media (max-width: 600px) {
+    .menu-buttons { grid-template-columns: 1fr !important; }
+    .btn-secondary { grid-column: span 1; }
+}
+
+/*Undsen tsonhnii orgoniig tomsgono*/
+.menu-container {
+    max-width: 1000px !important;
+    width: 90% !important;       
+    padding: 50px !important;   
+}
+
+.btn-menu {
+    padding: 40px 20px !important;  
+    font-size: 1.2rem !important;  
+}
+
+.btn-secondary {
+    padding: 25px 20px !important;
+}

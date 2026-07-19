@@ -25,16 +25,19 @@
         </div>
 
         <!-- Undsen tses(nickname tei hereglegcid haragdana) -->
-        <div id="main-menu" class="auth-box" style="display: none;">
-            <h2>Сайн уу, <span id="user-display-name">Тоглогч</span>! </h2>
-            <p style="text-align: center; margin-bottom: 20px; color: #a5c7f7;">Тоглоомын горимоо сонгоно уу</p>
+        <div id="main-menu" style="display: none; width: 100%;">
+            <div class="menu-header">
+                <h2 style="margin: 0; text-align: left;">Сайн уу, <span id="user-display-name">Тоглогч</span>! </h2>
+                <button id="logout-btn" class="btn-primary">Системээс гарах</button>
+            </div>
+
+            <p style="text-align: left; margin-bottom: 25px; color: #cbd5e1; font-size: 1rem;">Тоглоомын горимоо сонгоно уу:</p>
             
             <div class="menu-buttons">
                 <button class="btn-menu" onclick="startGame('flag')"> Туг таах</button>
                 <button class="btn-menu" onclick="startGame('capital')"> Нийслэл таах</button>
                 <button class="btn-menu" onclick="startGame('map')"> Газар нутгийн дүрс таах</button>
                 <button class="btn-menu btn-secondary" onclick="window.location.href='leaderboard.html'"> Шилдэг тоглогчид</button>
-                <button id="logout-btn" class="btn-primary" style="background: #d9534f; margin-top: 20px;">Системээс гарах</button>
             </div>
         </div>
     </div>
