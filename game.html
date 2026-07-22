@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="mn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Улс орны таавар - Тоглоом</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body>
+    <div class="menu-container game-box">
+        <!-- Togloomiin deed medeelliin heseg (onoo,hugatsaa,ami) -->
+        <div class="menu-header">
+            <div>Оноо: <span id="game-score">0</span></div>
+            <div id="timer-wrapper">Хугацаа: <span id="game-timer">15</span>с</div>
+            <div>Амь: <span id="game-lives">❤️❤️❤️</span></div>
+        </div>
+
+        <!-- Asuult haragdah talbar -->
+        <div class="question-container">
+            <h3 id="question-text">Асуулт ачаалж байна...</h3>
+            <!-- Zurag haruulah heseg (tug bolon gazriin zurag) -->
+            <div id="question-image-box" style="display: none; margin: 20px 0; text-align: center;">
+                <img id="question-image" src="" alt="Асуултын зураг" style="max-height: 200px; border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.3);">
+            </div>
+        </div>
+
+        <!-- 4 Songolt haragdah Grid tovchluuruuds -->
+        <div class="menu-buttons" id="options-container">
+        </div>
+    </div>
+
+    <script src="game.js"></script>
+</body>
+</html>

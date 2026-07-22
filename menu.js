@@ -77,12 +77,12 @@ nicknameForm.addEventListener('submit', async (e) => {
 // Togloom ehluuleh funkts 
 function startGame(mode) {
     localStorage.setItem('gameMode', mode);
-    // window.location.href = 'game.html';
-    alert(mode + " горим сонгогдлоо. Тоглоомын хуудас одоогоор бэлэн болоогүй байна.");
+    window.location.href = 'game.html';
+   
 }
 
 // Systemees garah (Log Out)
 logoutBtn.addEventListener('click', async () => {
-    await supabase.auth.signOut();
+    await supabaseClient.auth.signOut();
     window.location.href = 'index.html';
 });
