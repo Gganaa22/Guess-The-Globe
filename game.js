@@ -105,4 +105,81 @@ function loadQuestion() {
         button.addEventListener('click', () => handleAnswer(button, option.id === correctCountry.id));
         optionsContainer.appendChild(button);
     });
+
+    // Timer iig ehluulh
+    startTimer();
+}
+
+
+// Hariult shalgah funkts
+function handleAnswer(selectedButton, isCorrect) {
+    clearInterval(timerInterval); // timer iig zogsoono
+    
+    //Buh tovchluuriig dahin darah bolomjgui bolgono 
+    const buttons = optionsContainer.querySelectorAll('button');
+    buttons.forEach(btn => btn.disabled = true);
+
+    if (isCorrect) {
+        selectedButton.classList.add('btn-correct');
+        score += 10;
+        gameScoreEl.innerText = score;
+    } else {
+        selectedButton.classList.add('btn-wrong');
+        lives--;
+        updateLivesDisplay();
+    }
+
+    // 1.5 secondiin daraa daraagiin asuult ruu shinjine
+    setTimeout(() => {
+        currentQuestionIndex++;
+        loadQuestion();
+    }, 1500);
+}
+
+// Aminii duns shinechleh funkts
+function updateLivesDisplay() {
+    let hearts = '';
+    for (let i = 0; i < 3; i++) {
+        hearts += i < lives ? '❤️' : '🖤';
+    }
+    gameLivesEl.innerText = hearts;
+}
+
+// 15 secondiin timer ajilluulah funkts
+function startTimer() {
+    clearInterval(timerInterval);
+    timer = 15;
+    gameTimerEl.innerText = timer;
+
+    timerInterval = setInterval(() => {
+        timer--;
+        gameTimerEl.innerText = timer;
+
+        if (timer <= 0) {
+            clearInterval(timerInterval);
+            lives--;
+            updateLivesDisplay();
+            
+            // Hugatsaa duusahad daraagiin asuult ruu shiljine
+            questionText.innerText = "Хугацаа дууслаа!";
+            setTimeout(() => {
+                currentQuestionIndex++;
+                loadQuestion();
+            }, 1500);
+        }
+    }, 1000);
+}
+
+// Togloom duush funkts
+function endGame() {
+    clearInterval(timerInterval);
+    optionsContainer.innerHTML = '';
+    questionImageBox.style.display = 'none';
+    questionText.innerText = `Тоглоом дууслаа! Нийт оноо: ${score}`;
+    
+    const backBtn = document.createElement('button');
+    backBtn.classList.add('btn-primary');
+    backBtn.innerText = "Үндсэн цэс рүү буцах";
+    backBtn.addEventListener('click', () => window.location.href = 'menu.html');
+    optionsContainer.appendChild(backBtn);
 }
