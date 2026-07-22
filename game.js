@@ -49,5 +49,60 @@ async function fetchCountries() {
 
     // Ulsuudiig sanamsargui baidlaar holino
     countriesData = data.sort(() => Math.random() - 0.5);
+
+    // Ehnii asuultiig haruulna
+    loadQuestion();
 }
 
+// Asuult haruulh funkts
+function loadQuestion() {
+    //Togloom duusah nohtsol 3 ami duusah esvel 40 asuult duusah 
+    if (lives <= 0 || currentQuestionIndex >= Math.min(countriesData.length, 40)) {
+        endGame();
+        return;
+    }
+
+    // Odoogiin zov hariult boloh uls
+    const correctCountry = countriesData[currentQuestionIndex];
+    
+    //Buruu 3 songoltiig sanamsarguigeer songoh 
+    let wrongOptions = countriesData.filter(c => c.id !== correctCountry.id);
+    wrongOptions = wrongOptions.sort(() => Math.random() - 0.5).slice(0, 3);
+    
+    //zov bolon buruu hariultiig niiluuleed dahin holino 
+    let options = [correctCountry, ...wrongOptions].sort(() => Math.random() - 0.5);
+
+    // Delgetsiig tseverleh
+    optionsContainer.innerHTML = '';
+    questionImageBox.style.display = 'none';
+
+    // Gorimoos hamaarch asuultiig delgetsend harulna
+    if (currentGameMode === 'flag') {
+        questionText.innerText = "Энэ ямар улсын туг вэ?";
+        questionImage.src = correctCountry.flag_url || correctCountry.flag; // Baganiin nernees hamaarna
+        questionImageBox.style.display = 'block';
+    } else if (currentGameMode === 'capital') {
+        questionText.innerText = `${correctCountry.name} улсын нийслэл аль нь вэ?`;
+    } else if (currentGameMode === 'map') {
+        questionText.innerText = "Энэ ямар улсын газар нутгийн дүрс вэ?";
+        questionImage.src = correctCountry.map_url || correctCountry.map;
+        questionImageBox.style.display = 'block';
+    }
+
+    // 4 Songoltiin tovchluuruudiig uusgej HTML-d nemne
+    options.forEach(option => {
+        const button = document.createElement('button');
+        button.classList.add('btn-menu');
+        
+        // Gorimoos hamaarch tovchluur deerh textiig haruulna
+        if (currentGameMode === 'capital') {
+            button.innerText = option.capital;
+        } else {
+            button.innerText = option.name;
+        }
+
+        // Darj hariulh uyiin logic
+        button.addEventListener('click', () => handleAnswer(button, option.id === correctCountry.id));
+        optionsContainer.appendChild(button);
+    });
+}
