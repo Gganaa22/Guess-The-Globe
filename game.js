@@ -173,9 +173,29 @@ function startTimer() {
 // Togloom duush funkts
 function endGame() {
     clearInterval(timerInterval);
-    optionsContainer.innerHTML = '';
+    optionsContainer.innerHTML = 'Ачаалж байна...';
     questionImageBox.style.display = 'none';
-    questionText.innerText = `Тоглоом дууслаа! Нийт оноо: ${score}`;
+    questionText.innerText = `Тоглоом дууслаа! Оноог хадгалж байна...`;
+
+    //Supabase-iin scores husnegted onoog burtgene 
+    const { error } = await supabaseClient
+        .from('scores')
+        .insert([
+            { 
+                user_id: currentUser.id, 
+                score: score, 
+                mode: currentGameMode 
+            }
+        ]);
+
+    if (error) {
+        console.log("Оноо хадгалахад алдаа гарлаа:", error.message);
+        questionText.innerText = `Тоглоом дууслаа! Нийт оноо: ${score} (Оноо хадгалагдсангүй)`;
+    } else {
+        questionText.innerText = `Тоглоом дууслаа! Нийт оноо: ${score} (Амжилттай хадгалагдлаа)`;
+    }
+
+    optionsContainer.innerHTML = '';
     
     const backBtn = document.createElement('button');
     backBtn.classList.add('btn-primary');
