@@ -20,6 +20,7 @@ let lives = 3;
 let timer = 15;
 let timerInterval = null;
 let currentGameMode = localStorage.getItem('gameMode') || 'flag'; // Default ni tug taah
+let currentUser = null;
 
 // Huudas achaalagdahad togloomiig ehluulne
 window.addEventListener('load', async () => {
@@ -30,6 +31,7 @@ window.addEventListener('load', async () => {
         return;
     }
 
+    currentUser = session.user; //Nevtersen hereglegchiin medeelliig hadgalj avna
     // 2. Supabase-ees ulsuudiin medeelliig tatah
     await fetchCountries();
 });
@@ -52,6 +54,40 @@ async function fetchCountries() {
 
     // Ehnii asuultiig haruulna
     loadQuestion();
+}
+
+// Togloom duush funkts
+async function endGame() {
+    clearInterval(timerInterval);
+    optionsContainer.innerHTML = 'Ачаалж байна...';
+    questionImageBox.style.display = 'none';
+    questionText.innerText = `Тоглоом дууслаа! Оноог хадгалж байна...`;
+
+    //Supabase-iin scores husnegted onoog burtgene 
+    const { error } = await supabaseClient
+        .from('scores')
+        .insert([
+            { 
+                user_id: currentUser.id, 
+                score: score, 
+                mode: currentGameMode 
+            }
+        ]);
+
+    if (error) {
+        console.log("Оноо хадгалахад алдаа гарлаа:", error.message);
+        questionText.innerText = `Тоглоом дууслаа! Нийт оноо: ${score} (Оноо хадгалагдсангүй)`;
+    } else {
+        questionText.innerText = `Тоглоом дууслаа! Нийт оноо: ${score} (Амжилттай хадгалагдлаа)`;
+    }
+
+    optionsContainer.innerHTML = '';
+    
+    const backBtn = document.createElement('button');
+    backBtn.classList.add('btn-primary');
+    backBtn.innerText = "Үндсэн цэс рүү буцах";
+    backBtn.addEventListener('click', () => window.location.href = 'menu.html');
+    optionsContainer.appendChild(backBtn);
 }
 
 // Asuult haruulh funkts
@@ -170,36 +206,3 @@ function startTimer() {
     }, 1000);
 }
 
-// Togloom duush funkts
-function endGame() {
-    clearInterval(timerInterval);
-    optionsContainer.innerHTML = 'Ачаалж байна...';
-    questionImageBox.style.display = 'none';
-    questionText.innerText = `Тоглоом дууслаа! Оноог хадгалж байна...`;
-
-    //Supabase-iin scores husnegted onoog burtgene 
-    const { error } = await supabaseClient
-        .from('scores')
-        .insert([
-            { 
-                user_id: currentUser.id, 
-                score: score, 
-                mode: currentGameMode 
-            }
-        ]);
-
-    if (error) {
-        console.log("Оноо хадгалахад алдаа гарлаа:", error.message);
-        questionText.innerText = `Тоглоом дууслаа! Нийт оноо: ${score} (Оноо хадгалагдсангүй)`;
-    } else {
-        questionText.innerText = `Тоглоом дууслаа! Нийт оноо: ${score} (Амжилттай хадгалагдлаа)`;
-    }
-
-    optionsContainer.innerHTML = '';
-    
-    const backBtn = document.createElement('button');
-    backBtn.classList.add('btn-primary');
-    backBtn.innerText = "Үндсэн цэс рүү буцах";
-    backBtn.addEventListener('click', () => window.location.href = 'menu.html');
-    optionsContainer.appendChild(backBtn);
-}
