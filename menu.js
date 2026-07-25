@@ -24,6 +24,8 @@ window.addEventListener('load', async () => {
     
     currentUser = session.user;
     checkNickname();
+
+    await loadLeaderboard();
 });
 
 // hereglegchid nickname baigaa esehiig profiles husnegtees shalgana
@@ -86,3 +88,49 @@ logoutBtn.addEventListener('click', async () => {
     await supabaseClient.auth.signOut();
     window.location.href = 'index.html';
 });
+
+// Supabase-ees top 5 toglogchiin onoog tataj haruulah funkts
+async function loadLeaderboard() {
+    const listContainer = document.getElementById('leaderboard-list');
+    
+    // scores husnegtees onoogoor ni jagsaaj, profiles husnegtiin nickname- iig hamt tatna
+    const { data, error } = await supabaseClient
+        .from('scores')
+        .select(`
+            score,
+            mode,
+            profiles:user_id ( nickname )
+        `)
+        .order('score', { ascending: false })
+        .limit(5);
+
+    if (error) {
+        console.log("Жагсаалт татахад алдаа гарлаа:", error.message);
+        listContainer.innerHTML = '<div class="loading-text">Жагсаалтыг ачаалахад алдаа гарлаа.</div>';
+        return;
+    }
+
+    if (!data || data.length === 0) {
+        listContainer.innerHTML = '<div class="loading-text">Одоогоор тоглосон тоглогч байхгүй байна.</div>';
+        return;
+    }
+
+    listContainer.innerHTML = ''; // Loading textiig arilgah 
+
+    // Gorimuudiig mongol hel ruu horvuuleh jijig obiekt 
+    const modeNames = { 'flag': 'Туг', 'capital': 'Нийслэл', 'map': 'Газар нутаг' };
+
+    data.forEach((row, index) => {
+        
+        const nickname = row.profiles ? row.profiles.nickname : 'Тоглогч';
+        const mode = modeNames[row.mode] || row.mode;
+
+        const item = document.createElement('div');
+        item.classList.add('leaderboard-item');
+        item.innerHTML = `
+            <span>${index + 1}. <strong>${nickname}</strong> (${mode})</span>
+            <span><strong>${row.score}</strong> орон</span>
+        `;
+        listContainer.appendChild(item);
+    });
+}
