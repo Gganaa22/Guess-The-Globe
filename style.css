@@ -287,7 +287,7 @@ body {
     font-style: italic;
 }
 
-/* Лидербордыг бүтэн өргөнтэй, цэгцтэй болгох */
+/* leaderboard iig buten orgontei, tsegtstei bolgoh */
 .leaderboard-section {
     margin-top: 30px;
     background: rgba(30, 41, 59, 0.7);
@@ -299,7 +299,7 @@ body {
     clear: both;
 }
 
-/* Таб товчлууруудын байрлал */
+/* tab tovchluuruudiin bairlal */
 .leaderboard-tabs {
     display: flex;
     gap: 10px;

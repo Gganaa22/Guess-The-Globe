@@ -90,17 +90,32 @@ logoutBtn.addEventListener('click', async () => {
 });
 
 // Supabase-ees top 5 toglogchiin onoog tataj haruulah funkts
-async function loadLeaderboard() {
+async function loadLeaderboard(mode = 'all') {
     const listContainer = document.getElementById('leaderboard-list');
+    const titleContainer = document.getElementById('leaderboard-title'); 
     
-    // scores husnegtees onoogoor ni jagsaaj, profiles husnegtiin nickname- iig hamt tatna
-    const { data, error } = await supabaseClient
+    //Garchgiig idevhtei gorimiin nereer shinechleh logic 
+    const modeNames = { 'all': 'Бүх горим', 'flag': 'Туг таах', 'capital': 'Нийслэл таах', 'map': 'Газар нутаг таах' };
+    titleContainer.innerText = ` Шилдэг тоглогчид (${modeNames[mode]})`;
+
+    listContainer.innerHTML = '<div class="loading-text">Жагсаалтыг шинэчилж байна...</div>';
+    
+    // 1. Suuri query-iig huvisagchid avna 
+    let query = supabaseClient
         .from('scores')
         .select(`
             score,
             mode,
             profiles:user_id ( nickname )
-        `)
+        `);
+
+    // 2.Herev "Buh gorim"-oos busad gorim songogdson bol shuultuur ajillna 
+    if (mode !== 'all') {
+        query = query.eq('mode', mode);
+    }
+
+    // 3. Jagsaaltaa erembelj, 5-aar hyzgaarlna 
+    const { data, error } = await query
         .order('score', { ascending: false })
         .limit(5);
 
@@ -117,20 +132,29 @@ async function loadLeaderboard() {
 
     listContainer.innerHTML = ''; // Loading textiig arilgah 
 
-    // Gorimuudiig mongol hel ruu horvuuleh jijig obiekt 
-    const modeNames = { 'flag': 'Туг', 'capital': 'Нийслэл', 'map': 'Газар нутаг' };
 
     data.forEach((row, index) => {
         
         const nickname = row.profiles ? row.profiles.nickname : 'Тоглогч';
-        const mode = modeNames[row.mode] || row.mode;
+        const displayMode = modeNames[row.mode] || row.mode;
 
         const item = document.createElement('div');
         item.classList.add('leaderboard-item');
         item.innerHTML = `
-            <span>${index + 1}. <strong>${nickname}</strong> (${mode})</span>
-            <span><strong>${row.score}</strong> орон</span>
+            <span>${index + 1}. <strong>${nickname}</strong> ${mode === 'all' ? `(${displayMode})` : ''}</span>
+            <span><strong>${row.score}</strong> оноо</span>
         `;
         listContainer.appendChild(item);
     });
+}
+
+// tab tovchluuruudiig idevhjuulj, leaderboardiig shuuh funkts
+function filterLeaderboard(mode) {
+    const tabs = document.querySelectorAll('.tab-btn');
+    tabs.forEach(tab => tab.classList.remove('active'));
+
+    const clickedTab = Array.from(tabs).find(tab => tab.getAttribute('onclick').includes(`'${mode}'`));
+    if (clickedTab) clickedTab.classList.add('active');
+
+    loadLeaderboard(mode);
 }
