@@ -85,7 +85,19 @@ async function endGame() {
     }
 
     optionsContainer.innerHTML = '';
+
+    //Dahin togloh tovchluur 
+    const retryBtn = document.createElement('button');
+    retryBtn.classList.add('btn-primary');
+    retryBtn.style.marginRight = '10px';
+    retryBtn.innerText = "Дахин тоглох";
+    retryBtn.addEventListener('click', () => {
+        //Togloomiin tolovuudiig anhnii baidald ni oruulj huudsiig dahin achaalna 
+        window.location.reload(); 
+    });
+    optionsContainer.appendChild(retryBtn);
     
+    //undsen tses ruu butsah tovchluur
     const backBtn = document.createElement('button');
     backBtn.classList.add('btn-primary');
     backBtn.innerText = "Үндсэн цэс рүү буцах";
