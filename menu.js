@@ -73,6 +73,7 @@ nicknameForm.addEventListener('submit', async (e) => {
     } else {
         //Amjilttai hadgalagdval tses ruu shiljine 
         checkNickname();
+        loadLeaderboard('all'); //Shine hereglegchid leaderboardiig shuud haruulna 
     }
 });
 

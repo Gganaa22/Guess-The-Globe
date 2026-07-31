@@ -52,6 +52,9 @@ async function fetchCountries() {
     // Ulsuudiig sanamsargui baidlaar holino
     countriesData = data.sort(() => Math.random() - 0.5);
 
+    //Togloom ehlehed zurhnuudiig shuud delgetsend zurna 
+    updateLivesDisplay();
+
     // Ehnii asuultiig haruulna
     loadQuestion();
 }
